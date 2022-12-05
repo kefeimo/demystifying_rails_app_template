@@ -10,5 +10,6 @@ class ApplicationController < ActionController::Base
     # name = "keessdfd"
     render "application/hello_world", locals: { name: name}
 
+
   end
 end
