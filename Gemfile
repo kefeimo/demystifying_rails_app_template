@@ -20,6 +20,9 @@ gem 'sdoc', '0.4.2', group: :doc
 
 group :development, :test do
   gem 'pry'
+  # gem 'debugger'
+  gem 'ruby-debug-ide'
+  gem 'debase'
 
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console'
