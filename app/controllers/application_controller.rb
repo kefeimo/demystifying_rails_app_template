@@ -2,13 +2,13 @@ class ApplicationController < ActionController::Base
   def hello_world
     # render inline: '<em>Hello, World!</em>'
     # render "application/hello_world"
-    render inline: File.read("app/views/application/hello_world.html")
+    # render inline: File.read("app/views/application/hello_world.html.erb")
 
-    # binding.pry
-    # ### inside Pry ###
-    # response.body         # => "<em>Hello, World!</em>"
-    # response.content_type # => "text/html"
-    # response.status       # => 200
+    name = params["name"] || "world"
+    p "p name #{name}"
+    p name
+    # name = "keessdfd"
+    render "application/hello_world", locals: { name: name}
 
   end
 end
