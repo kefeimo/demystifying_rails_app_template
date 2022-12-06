@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   get "/show_post/:id" => "application#show_post"
   get "/new_post" => "application#new_post"
   post "/create_post" => "application#create_post"
+  get "/edit_post/:id" => "application#edit_post"
+  post "/update_post/:id" => "application#update_post"
 
   # get 'welcome/index'
   # The priority is based upon order of creation: first created -> highest priority.

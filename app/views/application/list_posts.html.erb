@@ -11,7 +11,8 @@
         <small class="meta">
           <span class="author">by <%= post["author"] -%> </span>
           <em class="created_at"> <%= post["created_at"] %> </em>
-
+          <br/>
+          <a href="/edit_post/<%=post["id"] %>"> Edit Post </a>
         </small>
       </div>
       <hr />
