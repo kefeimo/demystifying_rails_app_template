@@ -10,8 +10,29 @@ class ApplicationController < ActionController::Base
   end
 
   def show_post
-    post = connection.execute("SELECT * FROM posts where id==#{id}").first
+    query_string = "SELECT * FROM posts where id==#{params[:id]}"
+    post = connection.execute(query_string).first
     render 'application/show_post', locals: { post: post }
+  end
+
+  def new_post
+    render "application/new_post"
+  end
+
+  def create_post
+    insert_query = <<-SQL
+      INSERT INTO posts (title, body, author, created_at)
+      VALUES (?, ?, ?, ?)
+    SQL
+
+    connection.execute insert_query,
+                       params['title'],
+                       params['body'],
+                       params['author'],
+                       Date.current.to_s
+
+    redirect_to '/list_posts'
+    # render plain: insert_query
   end
 
   def connection
