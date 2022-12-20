@@ -1,18 +1,28 @@
-<html>
+<html lang="">
 <body>
-<!--<p><%#=post %></p>-->
-<form method="post" action="/update_post/<%=post["id"] %>">
+
+<div class="errors">
+  <% post.errors.each do |attribute, error| %>
+    <p class="error" style="color: orange">
+      <%= attribute %>: <%= error %>
+    </p>
+  <% end%>
+</div>
+
+<form method="post" action="/update_post/<%=post.id %>">
   <label for="title"> Title </label>
-  <input id=title name=title type=text value=<%=post["title"] %> />
-  </br></br>
+  <input id=title name=title type=text value="<%=post.title %>" />
+  <br/><br/>
 
   <label> Body </label>
-  <textarea name=body type=text><%=post["body"] %></textarea>
-  </br></br>
+  <label>
+    <textarea name=body type=text><%=post.body %></textarea>
+  </label>
+  <br/><br/>
 
   <label for="author"> Author </label>
-  <input id=author name=author type=text value=<%=post["author"] %> />
-  </br></br>
+  <input id=author name=author type=text value="<%=post.author%>" />
+  <br/><br/>
 
   <input type=submit value="Update Post" />
 </form>

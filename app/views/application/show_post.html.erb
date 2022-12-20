@@ -5,17 +5,18 @@
 <a href="/list_posts"> back to post list </a>
 <div class="post">
   <h2 class="title">
-    <%= post['title'] %>
+    <%#= post['title'] %>
+    <%= post.title %>
   </h2>
 
   <small class="meta">
-    <span class="author">by <%= post['author'] %> -</span>
-    <em class="created_at"><%= post['created_at'] %></em>
+    <span class="author">by <%= post.author %> -</span>
+    <em class="created_at"><%= post.created_at %></em>
   </small>
 
-  <p class="body"><%= post['body'] %></p>
+  <p class="body"><%= post.body %></p>
   <br/>
-  <a href="/edit_post/<%= post['id'] %>">Edit Post</a>
+  <a href="/edit_post/<%= post.id %>">Edit Post</a>
 </div>
 
 <br />

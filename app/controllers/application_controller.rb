@@ -5,54 +5,60 @@ class ApplicationController < ActionController::Base
   end
 
   def list_posts
-    posts = connection.execute('SELECT * FROM posts')
+    # posts = connection.execute('SELECT * FROM posts')
+    posts = Post.all
     render 'application/list_posts', locals: { posts: posts }
   end
 
   def show_post
-    post = find_post_by_id(params["id"])
+    # post = find_post_by_id(params[:id])
+    post = Post.find(params["id"])
+    # puts post
+    # puts post2
     render 'application/show_post', locals: { post: post }
   end
 
   def new_post
-    render "application/new_post"
+    # render "application/new_post"
+    post = Post.new
+    render "application/new_post", locals: {post: post}
   end
 
   def create_post
-    insert_query = <<-SQL
-      INSERT INTO posts (title, body, author, created_at)
-      VALUES (?, ?, ?, ?)
-    SQL
+    post = Post.new("title" => params["title"],
+                    "body" => params["body"],
+                    "author" => params["author"])
+    if post.save
+      redirect_to '/list_posts'
+    else
+      render "application/new_post", locals: {post:post}
+    end
 
-    connection.execute insert_query,
-                       params['title'],
-                       params['body'],
-                       params['author'],
-                       Date.current.to_s
 
-    redirect_to '/list_posts'
     # render plain: insert_query
   end
 
   def edit_post
-    post = find_post_by_id(params["id"])
+    # post = find_post_by_id(params["id"])
+    post = Post.find(params["id"])
     puts post
     render "application/edit_post", locals:{post:post}
   end
 
   def update_post
     # render plain: "updated post"
-    update_query = <<-SQL
-          UPDATE posts
-          SET title      = ?,
-              body       = ?,
-              author     = ?
-          WHERE posts.id = ?
-        SQL
-        connection.execute update_query, params['title'], params['body'], params['author'], params['id']
 
-        redirect_to '/list_posts'
+    post = Post.find(params["id"])
+    post.set_attributes('title' => params['title'],
+                        'body' => params['body'],
+                        'author' => params['author'])
+    if post.save
+      redirect_to '/list_posts'
+    else
+      render 'application/edit_post', locals: { post: post }
+    end
   end
+
 
   def delete_post
 
@@ -60,7 +66,9 @@ class ApplicationController < ActionController::Base
       # render plain: "params['id'] #{params['id']} NO post deleted"
       puts "params['id'] #{params['id']} NO post deleted"
     else
-      connection.execute("DELETE FROM posts WHERE posts.id = ?", params['id'])
+      # connection.execute("DELETE FROM posts WHERE posts.id = ?", params['id'])
+      post = Post.find(params['id'])
+      post.destroy
     end
     redirect_to '/list_posts'
   end
@@ -75,4 +83,10 @@ class ApplicationController < ActionController::Base
     post = connection.execute("SELECT * FROM posts WHERE id==?", id).first
     post
   end
+
+  def route
+    puts "========"
+    render plain: "route test id= #{params[:id]}"
+  end
+
 end
