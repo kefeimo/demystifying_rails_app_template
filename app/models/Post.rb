@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class Post
+class Post < BaseModel
   attr_reader :id, :title, :body, :author, :created_at, :errors
 
   def initialize(attributes={})
@@ -45,9 +45,9 @@ class Post
                        id
   end
 
-  def new_record?
-    id.nil?
-  end
+  # def new_record?
+  #   id.nil?
+  # end
 
   def valid?
     # title.present? && body.present? && author.present?
@@ -57,29 +57,29 @@ class Post
     @errors.empty?
   end
 
-  def save
-    # puts "===== #{title} #{body} #{author}"
-    return false unless valid?
+  # def save
+  #   # puts "===== #{title} #{body} #{author}"
+  #   return false unless valid?
+  #
+  #   if new_record?
+  #     insert
+  #   else
+  #     update
+  #   end
+  #   return true
+  # end
 
-    if new_record?
-      insert
-    else
-      update
-    end
-    return true
-  end
+  # def self.find(id)
+  #   post_hash = connection.execute("SELECT * FROM posts WHERE posts.id = ? LIMIT 1", id).first
+  #   post = Post.new(post_hash)
+  #   # puts "======self.find(id)"
+  #   # p post
+  #   # p post
+  # end
 
-  def self.find(id)
-    post_hash = connection.execute("SELECT * FROM posts WHERE posts.id = ? LIMIT 1", id).first
-    post = Post.new(post_hash)
-    # puts "======self.find(id)"
-    # p post
-    # p post
-  end
-
-  def destroy
-    connection.execute "DELETE FROM posts WHERE posts.id = ?", id
-  end
+  # def destroy
+  #   connection.execute "DELETE FROM posts WHERE posts.id = ?", id
+  # end
 
   def comments
     comments_hash = connection.execute("SELECT * FROM comments WHERE comments.post_id = ?", id)
@@ -104,24 +104,24 @@ class Post
     comment.destroy
   end
 
-  def self.all
-    post_hashes = connection.execute "SELECT * FROM posts"
-    posts = post_hashes.map do |post_hash|
-      Post.new(post_hash)
-    end
-    p posts
-    # posts
+  # def self.all
+  #   post_hashes = connection.execute "SELECT * FROM posts"
+  #   posts = post_hashes.map do |post_hash|
+  #     Post.new(post_hash)
+  #   end
+  #   p posts
+  #   # posts
+  #
+  # end
 
-  end
-
-  def self.connection
-    db_connection = SQLite3::Database.new('db/development.sqlite3')
-    db_connection.results_as_hash = true
-    db_connection
-  end
-
-  def connection
-    self.class.connection
-  end
+  # def self.connection
+  #   db_connection = SQLite3::Database.new('db/development.sqlite3')
+  #   db_connection.results_as_hash = true
+  #   db_connection
+  # end
+  #
+  # def connection
+  #   self.class.connection
+  # end
 
 end
