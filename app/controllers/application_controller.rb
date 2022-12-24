@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
     # comments = Comment.all
     # puts "================="
     # puts comments
-    render 'application/show_post', locals: { post: post, comments: comments}
+    render 'application/show_post', locals: { post: post, comments: comments, comment: Comment.new}
   end
 
   def new_post
@@ -91,11 +91,41 @@ class ApplicationController < ActionController::Base
   #======== comments
   def create_comment
     post = Post.find(params[:post_id])
-    post.create_comment("body" => params["body"],
-                        "author" => params["author"],)
-    redirect_to "/show_post/#{params[:post_id]}"
+    # post.create_comment("body" => params["body"],
+    #                     "author" => params["author"],)
+    comment_hash = {"body" => params["body"],
+                    "author" => params["author"]}
+    comment = Comment.new(comment_hash)
+    comment.valid?
+    if post.create_comment(comment_hash)
+      redirect_to "/show_post/#{params[:post_id]}"
+    else
+      # puts "========= comment_temp #{comment_temp.errors}"
+      render "application/show_post", locals: { post: post , comment: comment}
+    end
 
     # render plain: "create_comment"
+  end
+
+  def delete_comment
+    post = Post.find(params['post_id'])
+    post.delete_comment(params['comment_id'])
+    redirect_to "/show_post/#{params['post_id']}", locale: {comment_temp: Comment.new}
+  end
+
+  def destroy_comment
+    comment = Comment.find(params[:id])
+    # puts "==========destroy_comment comment #{comment}"
+    # puts "==========destroy_comment comment #{comment.id}"
+    comment.destroy
+    comments = Comment.all
+    render 'application/list_comments', locals: { comments: comments }
+  end
+
+  def list_comments
+    comments = Comment.all
+
+    render 'application/list_comments', locals: { comments: comments }
   end
 
 end

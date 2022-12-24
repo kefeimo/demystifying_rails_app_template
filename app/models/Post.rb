@@ -96,6 +96,14 @@ class Post
     comment.save
   end
 
+  def delete_comment(comment_id)
+    # puts "======== comment_id #{comment_id}"
+    comment = Comment.find(comment_id)
+    # puts "======== delete_comment comment #{comment}"
+    # puts "======== delete_comment comment #{comment}"
+    comment.destroy
+  end
+
   def self.all
     post_hashes = connection.execute "SELECT * FROM posts"
     posts = post_hashes.map do |post_hash|

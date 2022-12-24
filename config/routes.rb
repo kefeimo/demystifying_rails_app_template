@@ -17,6 +17,9 @@ Rails.application.routes.draw do
   get "/route" => "application#route"
 
   post "/create_comment_for_post/:post_id" => "application#create_comment"
+  post '/list_posts/:post_id/delete_comment/:comment_id' => 'application#delete_comment'
+  get  '/list_comments' => 'application#list_comments'
+  post '/destroy_comment/:id' => 'application#destroy_comment'
 
   # get 'welcome/index'
   # The priority is based upon order of creation: first created -> highest priority.

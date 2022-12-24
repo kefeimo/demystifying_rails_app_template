@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Comment
-  attr_reader :id, :title, :body, :author, :post_id, :created_at
+  attr_reader :id, :title, :body, :author, :post_id, :created_at, :errors
 
   def initialize(attributes={})
     set_attributes(attributes)
@@ -11,6 +11,12 @@ class Comment
 
   def new_record?
     id.nil?
+  end
+
+  def valid?
+    @errors['body']   = "can't be less than 3" if body.length < 3
+    @errors['author'] = "can't be less than 3" if author.length < 3
+    @errors.empty?
   end
 
   def set_attributes(attributes)
@@ -26,8 +32,7 @@ class Comment
   end
 
   def save
-    # puts "===== #{title} #{body} #{author}"
-    # return false unless valid?
+    return false unless valid?
 
     if new_record?
       insert
@@ -68,21 +73,31 @@ class Comment
 
   def self.find(id)
     comment_hash = connection.execute("SELECT * FROM comments WHERE comments.id = ? LIMIT 1", id).first
+    # puts "========== self.find comment_hash #{comment_hash}"
     comment = Comment.new(comment_hash)
+    # puts "========== self.find comment #{comment}"
+    comment
     # puts "======self.find(id)"
     # p post
     # p post
   end
 
-  def self.all
-    comment_hashes = connection.execute "SELECT * FROM comments"
-    comments = comment_hashes.map do |comment_hash|
-      Post.new(comment_hash)
-    end
-    # p posts
-    # posts
-    comments
+  def destroy
+    connection.execute "DELETE FROM comments WHERE id = ?", id
+  end
 
+  def self.all
+    comment_row_hashes = connection.execute("SELECT * FROM comments")
+    # puts "=========== comment_row_hashes #{comment_row_hashes}"
+    comments = comment_row_hashes.map do |comment_row_hash|
+      Comment.new(comment_row_hash)
+    end
+    puts "======== self.all comments #{comments}"
+    comments
+  end
+
+  def post
+    Post.find(post_id) # This can be accomplished using an existing method
   end
 
   def self.connection

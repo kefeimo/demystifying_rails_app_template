@@ -2,6 +2,16 @@
 
 <html>
 <body>
+
+<div class="errors">
+  <% comment.errors.each do |attribute, error| %>
+    <p class="error" style="color: orange">
+      <%= attribute %>: <%= error %>
+    </p>
+  <% end%>
+</div>
+
+
 <a href="/list_posts"> back to post list </a>
 <div class="post">
   <h2 class="title">
@@ -25,10 +35,15 @@
     <% post.comments.each_with_index do |comment, index| %>
       <div class="comment">
         <small class="comment_meta">
-          <span class="comment_author">#<%= index+1 %> by <%= comment.author %> -</span>
+          <span class="comment_author">#<%= index+1 %> #<%= comment.id %> by <%= comment.author %> -</span>
           <em class="comment_created_at"><%= comment.created_at %></em>
         </small>
         <p class="comment_body"><%= comment.body %></p>
+
+        <form method="post" action="/list_posts/<%= post.id %>/delete_comment/<%=
+          comment.id %>">
+          <input type="submit" value="Delete Comment" />
+        </form>
       </div>
       <hr />
     <% end %>
