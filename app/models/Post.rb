@@ -81,6 +81,21 @@ class Post
     connection.execute "DELETE FROM posts WHERE posts.id = ?", id
   end
 
+  def comments
+    comments_hash = connection.execute("SELECT * FROM comments WHERE comments.post_id = ?", id)
+    comments_hash.map do |comment_hash|
+      Comment.new(comment_hash)
+    end
+    # puts "======self.find(id)"
+    # p post
+    # p post
+  end
+
+  def create_comment(attributes)
+    comment = Comment.new(attributes.merge!('post_id' => id))
+    comment.save
+  end
+
   def self.all
     post_hashes = connection.execute "SELECT * FROM posts"
     posts = post_hashes.map do |post_hash|

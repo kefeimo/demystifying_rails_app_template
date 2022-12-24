@@ -17,8 +17,8 @@ class ApplicationController < ActionController::Base
     # puts post2
     comments = connection.execute('SELECT * FROM comments WHERE comments.post_id = ?', params['id'])
     # comments = Comment.all
-    puts "================="
-    puts comments
+    # puts "================="
+    # puts comments
     render 'application/show_post', locals: { post: post, comments: comments}
   end
 
@@ -88,9 +88,14 @@ class ApplicationController < ActionController::Base
     post
   end
 
-  def route
-    puts "========"
-    render plain: "route test id= #{params[:id]}"
+  #======== comments
+  def create_comment
+    post = Post.find(params[:post_id])
+    post.create_comment("body" => params["body"],
+                        "author" => params["author"],)
+    redirect_to "/show_post/#{params[:post_id]}"
+
+    # render plain: "create_comment"
   end
 
 end

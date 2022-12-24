@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Comment
-  attr_reader :id, :title, :body, :author, :created_at
+  attr_reader :id, :title, :body, :author, :post_id, :created_at
 
   def initialize(attributes={})
     set_attributes(attributes)
@@ -9,12 +9,61 @@ class Comment
     @errors = {}
   end
 
+  def new_record?
+    id.nil?
+  end
+
   def set_attributes(attributes)
+    # puts "==============="
+    # puts attributes
+    # puts "new_record? #{new_record?}, attributes['id'] #{attributes['id']}"
     @id = attributes['id'] if new_record?
     @title = attributes['title']
     @body = attributes['body']
     @author = attributes['author']
+    @post_id = attributes['post_id']
     @created_at ||= attributes['created_at']
+  end
+
+  def save
+    # puts "===== #{title} #{body} #{author}"
+    # return false unless valid?
+
+    if new_record?
+      insert
+    else
+      update
+    end
+    return true
+  end
+
+  def insert
+    insert_query = <<-SQL
+      INSERT INTO comments (body, author, created_at, post_id)
+      VALUES (?, ?, ?, ?)
+    SQL
+
+    connection.execute insert_query,
+                       body,
+                       author,
+                       Date.current.to_s,
+                       post_id
+  end
+
+  def update
+    # update_query  = <<-SQL
+    #   UPDATE comments
+    #   SET
+    #       body       = ?,
+    #       author     = ?
+    #   WHERE l.id = ?
+    # SQL
+    #
+    # connection.execute update_query,
+    #
+    #                    body,
+    #                    author,
+    #                    id
   end
 
   def self.find(id)
