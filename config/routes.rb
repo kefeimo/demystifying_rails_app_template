@@ -6,7 +6,6 @@ Rails.application.routes.draw do
 
   get "/list_posts" => "application#list_posts"
   get "/show_post/:id" => "application#show_post"
-  get "/show_post" => "application#show_post"
   # get "/show_post?id=:id" => "application#show_post"
   get "/new_post" => "application#new_post"
   post "/create_post" => "application#create_post"
@@ -14,12 +13,27 @@ Rails.application.routes.draw do
   post "/update_post/:id" => "application#update_post"
   post "/delete_post/:id" => "application#delete_post"
 
-  get "/route" => "application#route"
-
   post "/create_comment_for_post/:post_id" => "application#create_comment"
   post '/list_posts/:post_id/delete_comment/:comment_id' => 'application#delete_comment'
   get  '/list_comments' => 'application#list_comments'
   post '/destroy_comment/:id' => 'application#destroy_comment'
+
+  # # posts with convention
+  # get "/posts" => "posts#index"
+  # get "/posts/:id" => "posts#show"
+  # get "/posts/new" => "posts#new"
+  # post "/posts" => "posts#create"
+  # get "/posts/:id/edit" => "posts#edit"
+  # put "/posts/:id" => "posts#update"
+  # patch "/posts/:id" => "posts#update"
+  # delete "/posts/:id" => "posts#delete"
+  #
+  # # mutlisource, posts, comments with convention
+  # post "/posts/:id/comments" => "comments/create"
+  # delete "/posts/:post_id/comments/:id" => "comments/delete"
+  # get "/comments" => "comments/index"
+
+  root to: "application#list_posts"
 
   # get 'welcome/index'
   # The priority is based upon order of creation: first created -> highest priority.
