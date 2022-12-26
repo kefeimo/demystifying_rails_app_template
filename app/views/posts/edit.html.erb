@@ -1,0 +1,36 @@
+<html lang="">
+<body>
+
+<!--<div class="errors">-->
+  <%# @post.errors.each do |attribute, error| %>
+<!--    <p class="error" style="color: orange">-->
+<!--      <%#= attribute %>: <%#= error %>-->
+<!--    </p>-->
+  <%# end%>
+<!--</div>-->
+
+
+<form method="post" action="/posts/<%=@post.id %>">
+  <input  type='hidden' name='_method' value='put' />
+  <label for="title"> Title </label>
+  <input id=title name=title type=text value="<%=@post.title %>" />
+  <br/><br/>
+
+  <label> Body </label>
+  <label>
+    <textarea name=body type=text><%=@post.body %></textarea>
+  </label>
+  <br/><br/>
+
+  <label for="author"> Author </label>
+  <input id=author name=author type=text value="<%=@post.author%>" />
+  <br/><br/>
+
+  <input type=submit value="Update Post" />
+</form>
+
+<br/>
+<!--<a href="/list_posts">Back to List</a>-->
+<%= link_to "Back to List", posts_path %>
+</body>
+</html>

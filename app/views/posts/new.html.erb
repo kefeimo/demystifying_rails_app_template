@@ -1,0 +1,33 @@
+<html>
+<body>
+
+<div class="errors">
+  <% @post.errors.each do |attribute, error| %>
+    <p class="error" style="color: orange">
+      <%= attribute %>: <%= error %>
+    </p>
+  <% end%>
+</div>
+<h3><%=@post.id %></h3>
+<h3><%=@post.title %></h3>
+
+
+<form method="post" action="/posts">
+  <label for="title"> Title </label>
+    <input id=title name=title type=text value="<%=@post.title %>" />
+    </br></br>
+
+    <label> Body </label>
+      <textarea name=body type=text ><%=@post.body %></textarea>
+      </br></br>
+
+      <label for="author"> Author </label>
+        <input id=author name=author type=text  value="<%=@post.author %>"/>
+        </br></br>
+
+        <input type=submit value="Create Post" />
+</form>
+<br/>
+<a href="/posts">Back to List</a>
+</body>
+</html>

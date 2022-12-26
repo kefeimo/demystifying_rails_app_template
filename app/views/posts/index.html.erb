@@ -1,0 +1,37 @@
+<html>
+  <body>
+
+    <div class="posts">
+      <%@posts.each do |post| %>
+      <div>
+        <h2 class="title">
+<!--          TODO: try to implement show_post_path(@post)-->
+          <%#= posts_path %>
+          <%#= post_path(post.id) %>
+          #<%= post.id %>
+          <%= link_to post.title, post_path(post.id) %>
+
+<!--          <a href="/posts/<%#=post.id %>"> <%#= post.title %> </a>-->
+        </h2>
+
+        <small class="meta">
+          <span class="author">by <%= post.author -%> </span>
+          <em class="created_at"> <%= post.created_at %> </em>
+          <br/>
+          <%= link_to "Edit Post", edit_post_path(post.id) %>
+<!--          <a href="/edit_post/<%#=post.id %>"> Edit Post </a>-->
+          <form method="post" action="/posts/<%= post.id %>" style='display: inline'>
+            <input type='hidden' name='_method' value='delete' />
+            <input type="submit" value="Delete" />
+          </form>
+        </small>
+      </div>
+      <hr />
+      <%end %>
+    </div>
+    <br>
+<!--  <a href="/posts/new">New Post</a>-->
+  <%= link_to 'New Post', new_post_path %>
+
+  </body>
+</html>

@@ -51,7 +51,7 @@ class Post < BaseModel
 
   def valid?
     # title.present? && body.present? && author.present?
-    @error["title"] = "Can't be blank" if title.blank?
+    @errors["title"] = "Can't be blank" if title.blank?
     @errors['body']   = "can't be blank" if body.blank?
     @errors['author'] = "can't be blank" if author.blank?
     @errors.empty?
@@ -97,10 +97,7 @@ class Post < BaseModel
   end
 
   def delete_comment(comment_id)
-    # puts "======== comment_id #{comment_id}"
     comment = Comment.find(comment_id)
-    # puts "======== delete_comment comment #{comment}"
-    # puts "======== delete_comment comment #{comment}"
     comment.destroy
   end
 

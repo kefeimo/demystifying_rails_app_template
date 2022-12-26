@@ -1,0 +1,77 @@
+<!-- app/views/application/show_post.html.erb -->
+
+<html>
+<body>
+
+<div class="errors">
+  <% @comment.errors.each do |attribute, error| %>
+    <p class="error" style="color: orange">
+      <%= attribute %>: <%= error %>
+    </p>
+  <% end%>
+</div>
+
+
+<a href="/posts"> back to post list </a>
+<div class="post">
+  <h2 class="title">
+    <%#= post['title'] %>
+    # <%= @post.id %>
+    <br/>
+    <%= @post.title %>
+  </h2>
+
+  <small class="meta">
+    <span class="author">by <%= @post.author %> -</span>
+    <em class="created_at"><%= @post.created_at %></em>
+  </small>
+
+  <p class="body"><%= @post.body %></p>
+  <br/>
+<!--  <a href="/edit_post/<%#= @post.id %>">Edit Post</a>-->
+<!--  <a href="/posts/<%#= @post.id %>/edit">Edit Post</a>-->
+  <%#= link_to "Edit Post", edit_post_path(@post.id) %>
+  <%= link_to "Edit Post", edit_post_path(@post.id) %>
+
+
+<!--  <br/><br/>-->
+<!--  <div class="comments">-->
+<!--    <h3>Comments:</h3>-->
+<!--    <hr />-->
+    <%# @post.comments.each_with_index do |comment, index| %>
+<!--      <div class="comment">-->
+<!--        <small class="comment_meta">-->
+<!--          <span class="comment_author">#<%#= index+1 %> #<%#= comment.id %> by <%#= comment.author %> -</span>-->
+<!--          <em class="comment_created_at"><%#= comment.created_at %></em>-->
+<!--        </small>-->
+<!--        <p class="comment_body"><%#= comment.body %></p>-->
+
+<!--        <form method="post" action="/posts/<%#= post.id %>/delete_comment/<%#=-->
+<!--          comment.id %>">-->
+<!--          <input type="submit" value="Delete Comment" />-->
+<!--        </form>-->
+<!--      </div>-->
+<!--      <hr />-->
+    <%# end %>
+
+    <!-- new comment form -->
+<!--    <form method="post" action="/create_comment_for_post/<%#= @post.id %>">-->
+
+<!--      <label for="body">Comment</label>-->
+<!--      <textarea id="body" name="body"></textarea>-->
+<!--      <br /> <br />-->
+
+<!--      <label for="author">Name</label>-->
+<!--      <input id="author" name="author" type="text" />-->
+<!--      <br /> <br />-->
+
+<!--      <input type="submit" value="Add Comment" />-->
+<!--    </form>-->
+
+  </div>
+</div>
+
+<br />
+
+</body>
+</html>
