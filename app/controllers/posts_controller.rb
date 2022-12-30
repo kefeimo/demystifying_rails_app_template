@@ -19,9 +19,8 @@ class PostsController < ActionController::Base
   end
 
   def create
-    @post = Post.new("title" => params["title"],
-                    "body" => params["body"],
-                    "author" => params["author"])
+    # binding.pry
+    @post = Post.new(params["post"])
     if @post.save
       redirect_to '/posts'
     else

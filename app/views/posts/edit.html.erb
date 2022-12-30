@@ -10,24 +10,33 @@
 <!--</div>-->
 
 
-<form method="post" action="/posts/<%=@post.id %>">
-  <input  type='hidden' name='_method' value='put' />
-  <label for="title"> Title </label>
-  <input id=title name=title type=text value="<%=@post.title %>" />
+<!--<form method="post" action="/posts/<%#=@post.id %>">-->
+<%=form_tag url_for(action: "update"), method: "put" do %>
+<!--  <input  type='hidden' name='_method' value='put' />-->
+<!--  <label for="title"> Title </label>-->
+<!--  <input id=title name=title type=text value="<%#=@post.title %>" />-->
+  <%= label_tag "Title" %>
+  <%= text_field_tag "title", value=@post.title  %>
   <br/><br/>
 
-  <label> Body </label>
-  <label>
-    <textarea name=body type=text><%=@post.body %></textarea>
-  </label>
+<!--  <label> Body </label>-->
+<!--  <label>-->
+<!--    <textarea name=body type=text><%#=@post.body %></textarea>-->
+<!--  </label>-->
+  <%= label_tag "Body" %>
+  <%= text_area_tag "body", content=@post.body %>
   <br/><br/>
 
-  <label for="author"> Author </label>
-  <input id=author name=author type=text value="<%=@post.author%>" />
+<!--  <label for="author"> Author </label>-->
+<!--  <input id=author name=author type=text value="<%#=@post.author%>" />-->
+  <%= label_tag "Author" %>
+  <%= text_field_tag "author", value=@post.author  %>
   <br/><br/>
 
-  <input type=submit value="Update Post" />
-</form>
+<!--  <input type=submit value="Update Post" />-->
+  <%= submit_tag "Update Post" %>
+<!--</form>-->
+<% end %>
 
 <br/>
 <!--<a href="/list_posts">Back to List</a>-->
