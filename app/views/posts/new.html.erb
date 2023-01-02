@@ -1,38 +1,13 @@
 <html>
 <body>
 
-<div class="errors">
-  <% @post.errors.each do |attribute, error| %>
-    <p class="error" style="color: orange">
-      <%= attribute %>: <%= error %>
-    </p>
-  <% end %>
-</div>
-<!--<h3><%#= @post.id %></h3>-->
-<!--<h3><%#= @post.title %></h3>-->
+<%= render "errors" %>
+<%= render 'layouts/messages' %>
 
 
 <!--<form method="post" action="/posts">-->
 <%= form_tag url_for(action: "create"), method: "post" do %>
-<!--  <label for="title"> Title </label>-->
-  <%= label_tag "Title" %>
-<!--  <input id=title name=title type=text value="<%#= @post.title %>"/>-->
-  <%= text_field_tag name="post[title]", value=@post.title %>
-  </br></br>
-
-<!--  <label> Body </label>-->
-  <%= label_tag "body" %>
-<!--  <textarea name=body type=text><%#= @post.body %></textarea>-->
-  <%= text_area_tag name="post[body]", context=@post.body %>
-  </br></br>
-
-<!--  <label for="author"> Author </label>-->
-<!--  <input id=author name=author type=text value="<%#= @post.author %>"/>-->
-  <%=label_tag "Author" %>
-  <%=text_field_tag name="post[author]", value=@post.author %>
-
-  </br></br>
-
+<%= render "form_fields" %>
 <!--  <input type=submit value="Create Post"/>-->
   <%= submit_tag "Create Post" %>
 <!--</form>-->

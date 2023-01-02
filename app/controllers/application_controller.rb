@@ -2,13 +2,14 @@ class ApplicationController < ActionController::Base
 
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
-  protect_from_forgery with: :exception
+  # protect_from_forgery with: :exception
 
   def hello_world
     name = params['name'] || 'world'
     render 'application/hello_world', locals: { name: name }
   end
 
+  
   def list_posts
     # posts = connection.execute('SELECT * FROM posts')
     posts = Post.all
@@ -129,6 +130,7 @@ class ApplicationController < ActionController::Base
 
   def list_comments
     comments = Comment.all
+    # render plain: comments
 
     render 'application/list_comments', locals: { comments: comments }
   end

@@ -1,37 +1,13 @@
 <html lang="">
 <body>
 
-<!--<div class="errors">-->
-  <%# @post.errors.each do |attribute, error| %>
-<!--    <p class="error" style="color: orange">-->
-<!--      <%#= attribute %>: <%#= error %>-->
-<!--    </p>-->
-  <%# end%>
-<!--</div>-->
+
+<%= render "errors" %>
 
 
 <!--<form method="post" action="/posts/<%#=@post.id %>">-->
-<%=form_tag url_for(action: "update"), method: "put" do %>
-<!--  <input  type='hidden' name='_method' value='put' />-->
-<!--  <label for="title"> Title </label>-->
-<!--  <input id=title name=title type=text value="<%#=@post.title %>" />-->
-  <%= label_tag "Title" %>
-  <%= text_field_tag "title", value=@post.title  %>
-  <br/><br/>
-
-<!--  <label> Body </label>-->
-<!--  <label>-->
-<!--    <textarea name=body type=text><%#=@post.body %></textarea>-->
-<!--  </label>-->
-  <%= label_tag "Body" %>
-  <%= text_area_tag "body", content=@post.body %>
-  <br/><br/>
-
-<!--  <label for="author"> Author </label>-->
-<!--  <input id=author name=author type=text value="<%#=@post.author%>" />-->
-  <%= label_tag "Author" %>
-  <%= text_field_tag "author", value=@post.author  %>
-  <br/><br/>
+<%=form_tag url_for(action: "update"), method: "patch" do %>
+  <%= render "form_fields" %>
 
 <!--  <input type=submit value="Update Post" />-->
   <%= submit_tag "Update Post" %>

@@ -13,13 +13,16 @@ Rails.application.routes.draw do
   # post "/update_post/:id" => "application#update_post"
   # post "/delete_post/:id" => "application#delete_post"
 
-  post "/create_comment_for_post/:post_id" => "application#create_comment"
-  post '/list_posts/:post_id/delete_comment/:comment_id' => 'application#delete_comment'
+  # post "/create_comment_for_post/:post_id" => "application#create_comment"
+  # post '/list_posts/:post_id/delete_comment/:comment_id' => 'application#delete_comment'
   get  '/list_comments' => 'application#list_comments'
   post '/destroy_comment/:id' => 'application#destroy_comment'
 
   # # posts with convention
-  resources :posts
+  resources :posts do
+    resources :comments
+  end
+
   # get "/posts" => "application#list_posts"
   # get "/posts" => "posts#index"
   # get "/posts/new" => "posts#new"
@@ -34,6 +37,8 @@ Rails.application.routes.draw do
   # post "/posts/:id/comments" => "comments/create"
   # delete "/posts/:post_id/comments/:id" => "comments/delete"
   # get "/comments" => "comments/index"
+  # post "/create_comment_for_post/:post_id" => "posts#create_comment"
+  # post '/posts/:post_id/delete_comment/:comment_id' => 'posts#delete_comment'
 
   root to: "posts#index"
 

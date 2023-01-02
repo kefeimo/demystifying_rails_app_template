@@ -1,0 +1,18 @@
+<!--  <label for="title"> Title </label>-->
+<%#= label_tag "Title" %>
+<!--  <input id=title name=title type=text value="<%#= @post.title %>"/>-->
+<%#= text_field_tag name="post[title]", value=@post.title %>
+<!--</br></br>-->
+
+<!--  <label> Body </label>-->
+<%= label_tag "body" %>
+<!--  <textarea name=body type=text><%#= @post.body %></textarea>-->
+<%= text_area_tag name="comment[body]", context=@comment.body %>
+</br></br>
+
+<!--  <label for="author"> Author </label>-->
+<!--  <input id=author name=author type=text value="<%#= @post.author %>"/>-->
+<%=label_tag "Author" %>
+<%=text_field_tag name="comment[author]", value=@comment.author %>
+
+</br></br>
