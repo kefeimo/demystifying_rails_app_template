@@ -20,10 +20,30 @@ class CommentsController < ActionController::Base
 
   def create
     # binding.pry
+    # @post = Post.find(params[:post_id])
+    # @comment = @post.comments.create(user_params) # TODO: understand the magic logics
+    # # puts "======== CommentsController#create @comment #{@comment}, #{@comment.id}, #{@comment.post_id}"
+    # redirect_to post_path(@post)
+    # # redirect_to "/show_post/#{params['post_id']}", locale: {@comment:@comment}
+
+    comment_hash = user_params.merge!({:post_id => params[:post_id]})
+    @comment = Comment.new(comment_hash)
     @post = Post.find(params[:post_id])
-    @comment = @post.comments.create(user_params) # TODO: understand the magic logics
-    # puts "======== CommentsController#create @comment #{@comment}, #{@comment.id}, #{@comment.post_id}"
-    redirect_to post_path(@post.id)
+    p "========= @comment #{@comment.post_id}"
+    p "========= @comment.errors.blank? #{@comment.errors.blank?}"
+    puts "========= comment_hash #{comment_hash}"
+    if @comment.save
+      flash[:success] = "You have successfully created the comment."
+      # puts "========= flash #{flash}"
+      # redirect_to post_path(@post)  #, locale: {@comment => @comment}
+      render "posts/show"  # Note: it doesn't matter whether to use redirect_to or render
+    else
+      flash.now[:error] = "Comment couldn't be created. Please check the errors."
+      # p "========= flash #{flash.now}"
+      # p "========= flash #{flash.now[:error]}"
+      p "========= @comment.errors.blank? #{@comment.errors.blank?}"
+      render "posts/show"  # Note: only render would work
+    end
   end
 
   def edit

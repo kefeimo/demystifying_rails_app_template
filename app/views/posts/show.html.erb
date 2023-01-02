@@ -2,6 +2,7 @@
 
 <html>
 <body>
+<%= render 'layouts/messages' %>
 
 <div class="errors">
   <% @comment.errors.each do |attribute, error| %>
@@ -34,27 +35,33 @@
   <%= link_to "Edit Post", edit_post_path(@post.id) %>
 
 
-<!--  <br/><br/>-->
-<!--  <div class="comments">-->
-<!--    <h3>Comments:</h3>-->
-<!--    <hr />-->
-    <%# @post.comments.each_with_index do |comment, index| %>
-<!--      <div class="comment">-->
-<!--        <small class="comment_meta">-->
-<!--          <span class="comment_author">#<%#= index+1 %> #<%#= comment.id %> by <%#= comment.author %> -</span>-->
-<!--          <em class="comment_created_at"><%#= comment.created_at %></em>-->
-<!--        </small>-->
-<!--        <p class="comment_body"><%#= comment.body %></p>-->
+  <br/><br/>
+  <div class="comments">
+    <h3>Comments:</h3>
+    <hr/>
+    <% @post.comments.each_with_index do |comment, index| %>
+      <div class="comment">
+        <small class="comment_meta">
+          <span class="comment_author">#<%= index+1 %> #<%= comment.id %> by <%= comment.author %> -</span>
+          <em class="comment_created_at"><%= comment.created_at %></em>
+        </small>
+        <p class="comment_body"><%= comment.body %></p>
 
-<!--        <form method="post" action="/posts/<%#= post.id %>/delete_comment/<%#=-->
-<!--          comment.id %>">-->
-<!--          <input type="submit" value="Delete Comment" />-->
-<!--        </form>-->
-<!--      </div>-->
-<!--      <hr />-->
-    <%# end %>
+        <form method="post" action="/posts/<%= @post.id %>/comments/<%=
+          comment.id %>">
+          <input type='hidden' name='_method' value='delete' />
+          <input type="submit" value="Delete Comment" />
+        </form>
+<!--        Why the following doesn't work? i.e., how to use path_helper for DELETE /posts/:post_id/comments/:id(.:format)-->
+<!--        Do we need to use link_to instead of form tag-->
+        <%#= form_tag post_comment_path(params[:id]), method: "delete" do %>
+          <%#= submit_tag "Delete Comment" %>
+        <%# end %>
+      </div>
+      <hr/>
+    <% end %>
 
-    <!-- new comment form -->
+    <h3>new comment form</h3>
 <!--    <form method="post" action="/create_comment_for_post/<%#= @post.id %>">-->
 
 <!--      <label for="body">Comment</label>-->
@@ -68,10 +75,15 @@
 <!--      <input type="submit" value="Add Comment" />-->
 <!--    </form>-->
 
+    <%= form_tag post_comments_path(@post), method: "post" do %>
+      <%= render "comments/form_fields" %>
+      <%= submit_tag "Create Comments" %>
+    <% end %>
+
   </div>
 </div>
 
-<br />
+<br/>
 
 </body>
 </html>

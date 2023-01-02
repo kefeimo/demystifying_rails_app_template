@@ -25,6 +25,7 @@ class PostsController < ActionController::Base
       flash[:success] = "You have successfully created the post."
       puts "========= flash #{flash}"
       redirect_to '/posts'
+      # render "index"  # this will not work since "index.html.erb" require @posts
     else
       flash.now[:error] = "Post couldn't be created. Please check the errors."
       p "========= flash #{flash.now}"
