@@ -26,22 +26,28 @@ class CommentsController < ActionController::Base
     # redirect_to post_path(@post)
     # # redirect_to "/show_post/#{params['post_id']}", locale: {@comment:@comment}
 
-    comment_hash = user_params.merge!({:post_id => params[:post_id]})
-    @comment = Comment.new(comment_hash)
+    # comment_hash = user_params.merge!({:post_id => params[:post_id]})
+    # @comment = Comment.new(comment_hash)
+    # @post = Post.find(params[:post_id])
+    # p "========= @comment #{@comment.post_id}"
+    # p "========= @comment.errors.blank? #{@comment.errors.blank?}"
+    # puts "========= comment_hash #{comment_hash}"
+
     @post = Post.find(params[:post_id])
-    p "========= @comment #{@comment.post_id}"
-    p "========= @comment.errors.blank? #{@comment.errors.blank?}"
-    puts "========= comment_hash #{comment_hash}"
+    @comment = @post.comments.build(user_params)
     if @comment.save
       flash[:success] = "You have successfully created the comment."
       # puts "========= flash #{flash}"
-      # redirect_to post_path(@post)  #, locale: {@comment => @comment}
-      render "posts/show"  # Note: it doesn't matter whether to use redirect_to or render
+      redirect_to post_path(@post)  #, locale: {@comment => @comment}
+      # Note: at the first glance it doesn't matter whether to use redirect_to or render
+      # But using redirect_to is the better choice, otherwise the comment-list is stale
+      # and the comment form is also stale
+      # render "posts/show"
     else
       flash.now[:error] = "Comment couldn't be created. Please check the errors."
       # p "========= flash #{flash.now}"
       # p "========= flash #{flash.now[:error]}"
-      p "========= @comment.errors.blank? #{@comment.errors.blank?}"
+      # p "========= @comment.errors.blank? #{@comment.errors.blank?}"
       render "posts/show"  # Note: only render would work
     end
   end
@@ -66,7 +72,9 @@ class CommentsController < ActionController::Base
     puts "===destroy params #{params}"
     @comment = Comment.find(params[:id])
     @comment.destroy
-    redirect_to post_path(@comment.post_id)
+    # redirect_to post_path(@comment.post_id)
+    @post = Post.find(@comment.post_id)
+    redirect_to post_path(@post)
     # render "index"
     # render plain: "destroy place-holder"
   end

@@ -41,13 +41,19 @@ class PostsController < ActionController::Base
   end
 
   def update
-    @post = Post.new(user_params)
-    if @post.save
-      redirect_to '/posts'
-    else
-      render "edit"
-    end
+    # @post = Post.new(user_params)
+    # if @post.save
+    #   redirect_to '/posts'
+    # else
+    #   render "edit"
+    # end
     # render plain: "update place-holder"
+    @post = Post.find(params[:id])
+    if @post.update_attributes(user_params)
+      redirect_to posts_path
+    else
+      render 'edit'
+    end
   end
 
   def destroy

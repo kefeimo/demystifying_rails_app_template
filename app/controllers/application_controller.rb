@@ -9,11 +9,17 @@ class ApplicationController < ActionController::Base
     render 'application/hello_world', locals: { name: name }
   end
 
-  
   def list_posts
-    # posts = connection.execute('SELECT * FROM posts')
-    posts = Post.all
-    render 'application/list_posts', locals: { posts: posts }
+    posts = connection.execute('SELECT * FROM posts')
+    # posts = Post.all
+    # render 'application/list_posts', locals: { posts: posts }
+
+    # render plain: posts
+    @post_hashes = posts
+    # render "application_dummy/list_posts", locals: {posts: posts}
+    puts "============="
+    puts @post_hashes
+    render "application_dummy/list_posts"
   end
 
   def show_post
@@ -25,13 +31,13 @@ class ApplicationController < ActionController::Base
     # comments = Comment.all
     # puts "================="
     # puts comments
-    render 'application/show_post', locals: { post: post, comments: comments, comment: Comment.new}
+    render 'application/show_post', locals: { post: post, comments: comments, comment: Comment.new }
   end
 
   def new_post
     # render "application/new_post"
     post = Post.new
-    render "application/new_post", locals: {post: post}
+    render "application/new_post", locals: { post: post }
   end
 
   def create_post
@@ -41,9 +47,8 @@ class ApplicationController < ActionController::Base
     if post.save
       redirect_to '/list_posts'
     else
-      render "application/new_post", locals: {post:post}
+      render "application/new_post", locals: { post: post }
     end
-
 
     # render plain: insert_query
   end
@@ -52,7 +57,7 @@ class ApplicationController < ActionController::Base
     # post = find_post_by_id(params["id"])
     post = Post.find(params["id"])
     puts post
-    render "application/edit_post", locals:{post:post}
+    render "application/edit_post", locals: { post: post }
   end
 
   def update_post
@@ -68,7 +73,6 @@ class ApplicationController < ActionController::Base
       render 'application/edit_post', locals: { post: post }
     end
   end
-
 
   def delete_post
 
@@ -99,15 +103,15 @@ class ApplicationController < ActionController::Base
     post = Post.find(params[:post_id])
     # post.create_comment("body" => params["body"],
     #                     "author" => params["author"],)
-    comment_hash = {"body" => params["body"],
-                    "author" => params["author"]}
+    comment_hash = { "body" => params["body"],
+                     "author" => params["author"] }
     comment = Comment.new(comment_hash)
     comment.valid?
     if post.create_comment(comment_hash)
       redirect_to "/show_post/#{params[:post_id]}"
     else
       # puts "========= comment_temp #{comment_temp.errors}"
-      render "application/show_post", locals: { post: post , comment: comment}
+      render "application/show_post", locals: { post: post, comment: comment }
     end
 
     # render plain: "create_comment"
@@ -116,7 +120,7 @@ class ApplicationController < ActionController::Base
   def delete_comment
     post = Post.find(params['post_id'])
     post.delete_comment(params['comment_id'])
-    redirect_to "/show_post/#{params['post_id']}", locale: {comment_temp: Comment.new}
+    redirect_to "/show_post/#{params['post_id']}", locale: { comment_temp: Comment.new }
   end
 
   def destroy_comment

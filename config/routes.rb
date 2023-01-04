@@ -40,6 +40,10 @@ Rails.application.routes.draw do
   # post "/create_comment_for_post/:post_id" => "posts#create_comment"
   # post '/posts/:post_id/delete_comment/:comment_id' => 'posts#delete_comment'
 
+  # for project revisit
+  get "list_posts" => "application#list_posts"
+
+
   root to: "posts#index"
 
   # get 'welcome/index'
