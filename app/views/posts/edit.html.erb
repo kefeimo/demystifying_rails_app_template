@@ -6,13 +6,14 @@
 
 
 <!--<form method="post" action="/posts/<%#=@post.id %>">-->
-<%=form_tag url_for(action: "update"), method: "patch" do %>
-  <%= render "form_fields" %>
+<%#=form_tag url_for(action: "update"), method: "patch" do %>
+  <%#= render "form_fields" %>
 
 <!--  <input type=submit value="Update Post" />-->
-  <%= submit_tag "Update Post" %>
+  <%#= submit_tag "Update Post" %>
 <!--</form>-->
-<% end %>
+<%# end %>
+<%= render 'form' %>
 
 <br/>
 <!--<a href="/list_posts">Back to List</a>-->
