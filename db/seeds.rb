@@ -41,21 +41,21 @@ posts.each do |post_hash|
 end
 
 
-# print "\n  comments "
-#
-# comment_authors = %w[Matz DHH tenderlove]
-#
-# Post.all.each do |post|
-#   3.times do
-#     post.comments.create \
-#       body:      'Lorem ipsum dolor sit amet.',
-#       author:     comment_authors.sample,
-#       created_at: time,
-#       updated_at: time
-#
-#     time += 1.day
-#
-#     print '.'
-#   end
-# end
-# puts
+print "\n  comments "
+
+comment_authors = %w[Matz DHH tenderlove]
+
+Post.all.each do |post|
+  3.times do
+    post.comments.create \
+      body:      'Lorem ipsum dolor sit amet.',
+      author:     comment_authors.sample,
+      created_at: time,
+      updated_at: time
+
+    time += 1.day
+
+    print '.'
+  end
+end
+puts

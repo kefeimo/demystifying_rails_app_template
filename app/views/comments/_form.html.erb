@@ -1,35 +1,30 @@
-<%= form_with(model: post, local: true) do |form| %>
-  <% if post.errors.any? %>
+<%= form_with(model: [post, comment], url: [post, comment], local: true) do |form| %>
+  <% if comment.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
+      <h2><%= pluralize(comment.errors.count, "error") %> prohibited this comment from being saved:</h2>
 
       <ul>
-      <% post.errors.full_messages.each do |message| %>
+      <% comment.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
       </ul>
     </div>
   <% end %>
 
-
-
-  <div class="field">
-    <%= form.label 'Title' %>
-    <%= form.text_field :title %>
-  </div>
-  <br/>
   <div class="field">
     <%= form.label :body %>
     <%= form.text_area :body %>
   </div>
-  <br/>
+
   <div class="field">
     <%= form.label :author %>
     <%= form.text_field :author %>
   </div>
 
-
-  <br /> <br />
+  <div class="field">
+    <%= form.label :post_id %>
+    <%= form.text_field :post_id %>
+  </div>
 
   <div class="actions">
     <%= form.submit %>
